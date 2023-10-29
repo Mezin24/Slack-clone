@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #3f0f40;
+}
+
+body {
+  font-family: sans-serif;
+}
