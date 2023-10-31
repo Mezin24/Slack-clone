@@ -55,6 +55,7 @@ const Sidebar = () => {
             title: channel.data().name,
           }}
           id={channel.id}
+          name={channel.data().name}
         />
       ))}
     </SidebarContainer>

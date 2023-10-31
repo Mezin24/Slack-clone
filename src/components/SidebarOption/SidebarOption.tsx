@@ -11,9 +11,15 @@ export interface SidebarOptionProps {
   option: SidebarOptionType;
   addChanelOption?: boolean;
   id?: string;
+  name?: string;
 }
 
-const SidebarOption = ({ option, addChanelOption, id }: SidebarOptionProps) => {
+const SidebarOption = ({
+  option,
+  addChanelOption,
+  id,
+  name,
+}: SidebarOptionProps) => {
   const { Icon, title } = option;
   const dispatch: AppDispatch = useDispatch();
 
@@ -28,9 +34,9 @@ const SidebarOption = ({ option, addChanelOption, id }: SidebarOptionProps) => {
 
   const selectChannel = useCallback(() => {
     if (id) {
-      dispatch(appActions.enterRoom({ roomId: id }));
+      dispatch(appActions.enterRoom({ roomId: id, roomName: name || '' }));
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, name]);
 
   return (
     <SidebarOptionContainer
