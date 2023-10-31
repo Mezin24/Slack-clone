@@ -6,8 +6,13 @@ import SidebarOption from '../SidebarOption/SidebarOption';
 import { sidebarOptions } from './sidebarOptiopns';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { db } from '../../../firebase.config';
+import { collection } from 'firebase/firestore';
 
 const Sidebar = () => {
+  const [channels, loading, error] = useCollection(collection(db, 'channels'));
+
   return (
     <SidebarContainer>
       <div className='header'>
@@ -33,6 +38,7 @@ const Sidebar = () => {
           Icon: ExpandMoreIcon,
           title: 'channels',
         }}
+        addChanelOption
       />
       <hr />
       <SidebarOption
@@ -42,6 +48,15 @@ const Sidebar = () => {
         }}
         addChanelOption
       />
+      {channels?.docs.map((channel) => (
+        <SidebarOption
+          key={channel.id}
+          option={{
+            title: channel.data().name,
+          }}
+          id={channel.id}
+        />
+      ))}
     </SidebarContainer>
   );
 };
@@ -51,7 +66,7 @@ const SidebarContainer = styled.div`
   flex: 0.3;
   background-color: var(--primary-color);
   color: white;
-  padding-top: 60px;
+  padding-top: 56px;
   border-top: 1px solid #49274b;
   max-width: 250px;
 

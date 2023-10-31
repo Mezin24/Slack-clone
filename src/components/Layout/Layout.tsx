@@ -18,5 +18,5 @@ export default Layout;
 
 const AppBody = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 `;

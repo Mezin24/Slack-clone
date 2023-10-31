@@ -3,14 +3,19 @@ import { SidebarOptionType } from '../Sidebar/sidebarOptiopns';
 import { useCallback } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase.config.ts';
+import { useDispatch } from 'react-redux';
+import { appActions } from '../../store/app/appSlice.ts';
+import { AppDispatch } from '../../store/index.ts';
 
 export interface SidebarOptionProps {
   option: SidebarOptionType;
   addChanelOption?: boolean;
+  id?: string;
 }
 
-const SidebarOption = ({ option, addChanelOption }: SidebarOptionProps) => {
+const SidebarOption = ({ option, addChanelOption, id }: SidebarOptionProps) => {
   const { Icon, title } = option;
+  const dispatch: AppDispatch = useDispatch();
 
   const addChanel = useCallback(async () => {
     const channelName = prompt('Please enter a new channel name');
@@ -21,10 +26,16 @@ const SidebarOption = ({ option, addChanelOption }: SidebarOptionProps) => {
     }
   }, []);
 
-  const select = useCallback(() => {}, []);
+  const selectChannel = useCallback(() => {
+    if (id) {
+      dispatch(appActions.enterRoom({ roomId: id }));
+    }
+  }, [dispatch, id]);
 
   return (
-    <SidebarOptionContainer onClick={addChanelOption ? addChanel : select}>
+    <SidebarOptionContainer
+      onClick={addChanelOption ? addChanel : selectChannel}
+    >
       {Icon && <Icon fontSize='small' />}
       {Icon ? (
         <h3>{title}</h3>
@@ -60,7 +71,11 @@ const SidebarOptionContainer = styled.div`
 `;
 
 const SidebarOptionChannel = styled.div`
-  h3 > span {
-    padding: 15pxs;
+  padding: 6px;
+  font-weight: 300;
+  font-size: 14px;
+
+  span {
+    margin-right: 10px;
   }
 `;
