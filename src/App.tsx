@@ -6,7 +6,7 @@ import { auth } from '../firebase.config';
 import Login from './components/Login/Login';
 
 function App() {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   if (!user) {
     return <Login />;
