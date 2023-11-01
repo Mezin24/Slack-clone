@@ -11,7 +11,7 @@ import { db } from '../../../firebase.config';
 import { collection } from 'firebase/firestore';
 
 const Sidebar = () => {
-  const [channels, loading, error] = useCollection(collection(db, 'channels'));
+  const [channels] = useCollection(collection(db, 'channels'));
 
   return (
     <SidebarContainer>
