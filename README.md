@@ -8,5 +8,6 @@ realtime multy-room chat app
 - Redux;
 - Firebase 9;
 - Firebase hooks;
-- MUI;
 - Firebase deploy;
+- MUI;
+- Styled-components;
