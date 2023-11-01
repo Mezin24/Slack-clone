@@ -58,6 +58,7 @@ export default Chat;
 const ChatContainer = styled.div`
   padding: 55px;
   flex: 0.7;
+  flex-grow: 1;
   overflow-y: scroll;
   padding: 15px;
   height: 100vh;

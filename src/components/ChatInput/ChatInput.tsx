@@ -2,7 +2,8 @@ import { Button } from '@mui/material';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { FormEvent, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { db } from '../../../firebase.config';
+import { auth, db } from '../../../firebase.config';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 interface ChatInputProps {
   roomId: string | null;
@@ -11,6 +12,8 @@ interface ChatInputProps {
 
 const ChatInput = ({ roomName, roomId }: ChatInputProps) => {
   const [input, setInput] = useState('');
+  const [user] = useAuthState(auth);
+
   const submitHandler = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -19,14 +22,13 @@ const ChatInput = ({ roomName, roomId }: ChatInputProps) => {
       await addDoc(collection(db, `channels/${roomId}/messages`), {
         text: input,
         timestamp: serverTimestamp(),
-        user: 'Mezin24',
-        userUrl:
-          'https://pic.rutubelist.ru/video/96/d1/96d1fa22275b9756025dc759110b86e0.jpg',
+        user: user?.displayName || user?.email,
+        userUrl: user?.photoURL || user?.email?.[0].toUpperCase(),
       });
 
       setInput('');
     },
-    [input, roomId]
+    [input, roomId, user]
   );
 
   if (!roomId) return null;
